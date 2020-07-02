@@ -3,7 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "olx": "ts-node-dev src/olxFinder.ts",
+    "ml": "ts-node-dev src/mlFinder.ts"
+  },
   "devDependencies": {
+    "@types/puppeteer": "^3.0.1",
+    "ts-node-dev": "^1.0.0-pre.50",
     "typescript": "^3.9.6"
+  },
+  "dependencies": {
+    "puppeteer": "^5.0.0"
   }
 }
