@@ -1,4 +1,8 @@
 /node_modules
-/build
 .DS_Store
+.env
+/coverage
+/dist
 .vscode
+ormconfig.json
+/tmp
