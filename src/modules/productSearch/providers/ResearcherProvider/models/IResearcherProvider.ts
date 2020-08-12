@@ -1,9 +1,5 @@
-import IResultDTO from '@modules/productSearch/dtos/IResultDTO';
+import IResearchParamsDTO from '@modules/productSearch/dtos/IResearchParamsDTO';
 
-interface IParams {
-  [key: string]: string;
-}
-
-export default interface IHashProvider {
-  findProduct(params: IParams): Promise<IResultDTO[]>;
+export default interface IResearcherProvider {
+  findProduct(params: IResearchParamsDTO): Promise<void>;
 }

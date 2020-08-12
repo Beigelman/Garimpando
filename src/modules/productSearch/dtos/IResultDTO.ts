@@ -1,5 +1,5 @@
 export default interface IResultDTO {
-  title: string;
-  price: string;
-  link: string;
+  title: string | null | undefined;
+  price: string | undefined;
+  link: string | null | undefined;
 }

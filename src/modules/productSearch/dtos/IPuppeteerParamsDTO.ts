@@ -1,4 +1,4 @@
-export default interface IResearchParamsDTO {
+export default interface IPuppeteerParamsDTO {
   product_description: string;
   pages: number;
 }
