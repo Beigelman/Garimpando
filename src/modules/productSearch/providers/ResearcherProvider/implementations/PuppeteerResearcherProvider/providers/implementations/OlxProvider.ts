@@ -13,7 +13,6 @@ export default class OlxProvider implements IPuppeteerResearcherProvider {
     product_description,
   }: IPuppeteerParamsDTO): Promise<IResultDTO[]> {
     const browser = await puppeteer.launch({
-      headless: false,
       defaultViewport: { width: 1920, height: 1080 },
     });
     // Criando nova aba

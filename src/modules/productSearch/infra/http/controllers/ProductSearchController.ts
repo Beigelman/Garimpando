@@ -8,11 +8,11 @@ export default class ProductSearchController {
 
     const searchForProduct = container.resolve(SearchForProductsService);
 
-    await searchForProduct.execute({
+    const searchResult = await searchForProduct.execute({
       product_description,
       pages,
     });
 
-    return response.status(204).json();
+    return response.status(204).json(searchResult);
   }
 }

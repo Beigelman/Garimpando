@@ -1,6 +1,7 @@
 // import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import IResearcherProvider from '../providers/ResearcherProvider/models/IResearcherProvider';
+import IResultDTO from '../dtos/IResultDTO';
 
 interface IRequest {
   product_description: string;
@@ -19,13 +20,13 @@ class SearchForProductsService {
   public async execute({
     product_description,
     pages,
-  }: IRequest): Promise<void> {
+  }: IRequest): Promise<IResultDTO[]> {
     const results = await this.researcherProvider.findProduct({
       product_description,
       pages,
     });
 
-    console.log(results);
+    return results;
   }
 }
 

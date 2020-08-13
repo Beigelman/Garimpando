@@ -14,7 +14,7 @@ export default class MercadoLivreProvider
     pages,
     product_description,
   }: IPuppeteerParamsDTO): Promise<IResultDTO[]> {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch();
     // Criando nova aba
     const page = await browser.newPage();
     // Redirecionando para o url desejada
