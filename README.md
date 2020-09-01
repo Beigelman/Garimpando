@@ -1,3 +1,3 @@
-# EncontreMinhaCompra
+# Garimpando
 
-Web scraper que procura produtos usados no site da olx e mercadolivre em busca de algum produto com um preço especifico
+Web scraper que procura produtos usados nos sites da olx e do mercadolivre em busca de algum produto dentro de uma faxa de preço especifico e retornando os resultados em uma api.
