@@ -1,11 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateResearches1596994734722
-  implements MigrationInterface {
+export default class CreateResults1598986163574 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'researches',
+        name: 'results',
         columns: [
           {
             name: 'id',
@@ -15,21 +14,21 @@ export default class CreateResearches1596994734722
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'user_id',
+            name: 'research_id',
             type: 'uuid',
             isNullable: false,
           },
           {
-            name: 'params',
+            name: 'title',
             type: 'varchar',
           },
           {
-            name: 'frequency',
-            type: 'integer',
+            name: 'price',
+            type: 'float',
           },
           {
-            name: 'deleted_at',
-            type: 'timestamp',
+            name: 'link',
+            type: 'varchar',
           },
           {
             name: 'created_at',
@@ -42,11 +41,21 @@ export default class CreateResearches1596994734722
             default: 'now()',
           },
         ],
+        foreignKeys: [
+          {
+            name: 'ResearchResult',
+            referencedTableName: 'researches',
+            referencedColumnNames: ['id'],
+            columnNames: ['research_id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+        ],
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('researches');
+    await queryRunner.dropTable('results');
   }
 }
