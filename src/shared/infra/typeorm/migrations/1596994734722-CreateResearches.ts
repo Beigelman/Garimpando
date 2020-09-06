@@ -17,7 +17,6 @@ export default class CreateResearches1596994734722
           {
             name: 'user_id',
             type: 'uuid',
-            isNullable: false,
           },
           {
             name: 'params',
@@ -30,6 +29,7 @@ export default class CreateResearches1596994734722
           {
             name: 'deleted_at',
             type: 'timestamp',
+            isNullable: true,
           },
           {
             name: 'created_at',

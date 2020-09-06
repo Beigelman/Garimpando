@@ -14,7 +14,7 @@ export default class MercadoLivreProvider
     pages,
     product_description,
   }: IPuppeteerParamsDTO): Promise<IResultDTO[]> {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch();
     // Criando nova aba
     const page = await browser.newPage();
     // Redirecionando para o url desejada
@@ -34,27 +34,29 @@ export default class MercadoLivreProvider
       const products = [];
       // Procurando nas paginas
       for (let i = 0; i < pages; i++) {
-        await page.waitForSelector('li.results-item');
+        await page.waitForSelector('li');
         const info = await page.evaluate(() => {
-          const elements = document.querySelectorAll('li.results-item');
+          const elements = document.querySelectorAll('li');
           const list = Array.from(elements);
           return list.map(
             item =>
               ({
-                title: item.querySelector<HTMLElement>('span.main-title')
-                  ?.innerText,
-                price: `${item
-                  .querySelector<HTMLElement>('span.price__fraction')
-                  ?.innerText.replace('.', '')}${
-                  item.querySelector<HTMLElement>('span.price__decimals')
-                    ? `.${
-                        item.querySelector<HTMLElement>('span.price__decimals')
-                          ?.innerText
-                      }`
-                    : ''
-                }`,
+                title: item.querySelector<HTMLElement>('h2')?.innerText,
+                price: parseFloat(
+                  `${item
+                    .querySelector<HTMLElement>('span.price-tag-fraction')
+                    ?.innerText.replace('.', '')}${
+                    item.querySelector<HTMLElement>('span.price-tag-cents')
+                      ? `.${
+                          item.querySelector<HTMLElement>(
+                            'span.price-tag-cents'
+                          )?.innerText
+                        }`
+                      : ''
+                  }`
+                ),
                 link: item
-                  .querySelector<HTMLElement>('a.item__info-link')
+                  .querySelector<HTMLElement>('a')
                   ?.getAttribute('href'),
               } as IResultDTO)
           );
@@ -63,14 +65,14 @@ export default class MercadoLivreProvider
         products.push(...info);
 
         try {
-          await page.waitForSelector('a.andes-pagination__link.prefetch');
-          await page.click('a.andes-pagination__link.prefetch');
+          await page.waitForSelector('a[title=Próxima]');
+          await page.click('a[title=Próxima]');
         } catch {
           i = pages;
         }
       }
       // Fechando o browser
-      // await browser.close();
+      await browser.close();
 
       return products;
     } catch {

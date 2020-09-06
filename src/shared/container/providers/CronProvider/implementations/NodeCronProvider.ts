@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import ICronDTO from '../dtos/ISendMailDTO';
+import ICronDTO from '../dtos/ICronDTO';
 import ICronProvider from '../models/ICronProvider';
 
 export default class NodeCronProvider implements ICronProvider {

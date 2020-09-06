@@ -3,17 +3,20 @@ import Result from '@modules/search/infra/typeorm/entities/Result';
 import { uuid } from 'uuidv4';
 import IResultsRepository from '../IResultsRepository';
 
-class ResultsRepository implements IResultsRepository {
+class FakeResultsRepository implements IResultsRepository {
   private results: Result[] = [];
 
-  public async create(resultData: ICreateResultDTO): Promise<Result> {
-    const result = new Result();
+  public async create({
+    research_id,
+    results,
+  }: ICreateResultDTO): Promise<Result[]> {
+    results.forEach(item => {
+      const result = new Result();
+      Object.assign(result, { id: uuid(), research_id }, item);
+      this.results.push(result);
+    });
 
-    Object.assign(result, { id: uuid() }, resultData);
-
-    this.results.push(result);
-
-    return result;
+    return this.results;
   }
 
   public async findById(id: string): Promise<Result | undefined> {
@@ -22,11 +25,15 @@ class ResultsRepository implements IResultsRepository {
     return result;
   }
 
-  public async findByUserId(user_id: string): Promise<Result[] | undefined> {
-    const result = this.results.filter(item => item.research_id === user_id);
+  public async findByResearchId(
+    research_id: string
+  ): Promise<Result[] | undefined> {
+    const result = this.results.filter(
+      item => item.research_id === research_id
+    );
 
     return result;
   }
 }
 
-export default ResultsRepository;
+export default FakeResultsRepository;

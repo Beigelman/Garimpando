@@ -21,6 +21,9 @@ class Research {
   frequency: number;
 
   @CreateDateColumn()
+  deleted_at: Date | null;
+
+  @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()

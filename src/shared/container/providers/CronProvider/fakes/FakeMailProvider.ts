@@ -1,4 +1,4 @@
-import ICronDTO from '../dtos/ISendMailDTO';
+import ICronDTO from '../dtos/ICronDTO';
 import ICronProvider from '../models/ICronProvider';
 
 export default class FakeCronProvider implements ICronProvider {

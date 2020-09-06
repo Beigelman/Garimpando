@@ -12,6 +12,10 @@ productSearchRouter.post(
     [Segments.BODY]: {
       product_description: Joi.string().required(),
       pages: Joi.number().required(),
+      platform: Joi.object({
+        olx: Joi.boolean().required(),
+        ml: Joi.boolean().required(),
+      }).required(),
       min_price: Joi.number(),
       max_price: Joi.number(),
     },

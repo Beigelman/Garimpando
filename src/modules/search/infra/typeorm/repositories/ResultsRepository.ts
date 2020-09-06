@@ -12,20 +12,18 @@ class ResultsRepository implements IResultsRepository {
 
   public async create({
     research_id,
-    title,
-    price,
-    link,
-  }: ICreateResultDTO): Promise<Result> {
-    const result = this.ormRepository.create({
+    results,
+  }: ICreateResultDTO): Promise<Result[]> {
+    const resultsData = results.map(result => ({
       research_id,
-      title,
-      price,
-      link,
-    });
+      ...result,
+    }));
 
-    await this.ormRepository.save(result);
+    const storeResults = this.ormRepository.create(resultsData);
 
-    return result;
+    await this.ormRepository.save(storeResults);
+
+    return storeResults;
   }
 
   public async findById(id: string): Promise<Result | undefined> {
@@ -34,9 +32,11 @@ class ResultsRepository implements IResultsRepository {
     return result;
   }
 
-  public async findByUserId(user_id: string): Promise<Result[] | undefined> {
+  public async findByResearchId(
+    research_id: string
+  ): Promise<Result[] | undefined> {
     const results = await this.ormRepository.find({
-      where: { user_id },
+      where: { research_id },
     });
 
     return results;

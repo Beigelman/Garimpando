@@ -4,7 +4,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import Research from './Research';
 
 @Entity('results')
 class Result {
@@ -14,13 +17,17 @@ class Result {
   @Column('uuid')
   research_id: string;
 
+  @ManyToOne(() => Research)
+  @JoinColumn({ name: 'research_id' })
+  research: Research;
+
   @Column()
   title: string;
 
-  @Column()
+  @Column('float')
   price: number;
 
-  @Column()
+  @Column('')
   link: string;
 
   @CreateDateColumn()

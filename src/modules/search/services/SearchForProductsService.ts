@@ -2,13 +2,7 @@
 import { injectable, inject } from 'tsyringe';
 import IResearcherProvider from '../providers/ResearcherProvider/models/IResearcherProvider';
 import IResultDTO from '../dtos/IResultDTO';
-
-interface IRequest {
-  product_description: string;
-  pages: number;
-  min_price?: number;
-  max_price?: number;
-}
+import ISearchProductParamsDTO from '../dtos/ISearchProductParamsDTO';
 
 @injectable()
 class SearchForProductsService {
@@ -20,11 +14,13 @@ class SearchForProductsService {
   public async execute({
     product_description,
     pages,
+    platform,
     min_price,
     max_price,
-  }: IRequest): Promise<IResultDTO[]> {
+  }: ISearchProductParamsDTO): Promise<IResultDTO[]> {
     const results = await this.researcherProvider.findProduct({
       product_description,
+      platform,
       pages,
       min_price,
       max_price,

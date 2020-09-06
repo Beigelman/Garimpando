@@ -3,7 +3,7 @@ import ICreateResearchDTO from '@modules/search/dtos/ICreateResearchDTO';
 import Research from '@modules/search/infra/typeorm/entities/Research';
 import { uuid } from 'uuidv4';
 
-class ResearchesRepository implements IResearchesRepository {
+class FakeResearchesRepository implements IResearchesRepository {
   private researches: Research[] = [];
 
   public async create(researchData: ICreateResearchDTO): Promise<Research> {
@@ -12,6 +12,16 @@ class ResearchesRepository implements IResearchesRepository {
     Object.assign(research, { id: uuid() }, researchData);
 
     this.researches.push(research);
+
+    return research;
+  }
+
+  public async findAll(): Promise<Research[] | undefined> {
+    return this.researches;
+  }
+
+  public async findByParams(params: string): Promise<Research | undefined> {
+    const research = this.researches.find(item => item.params === params);
 
     return research;
   }
@@ -29,4 +39,4 @@ class ResearchesRepository implements IResearchesRepository {
   }
 }
 
-export default ResearchesRepository;
+export default FakeResearchesRepository;

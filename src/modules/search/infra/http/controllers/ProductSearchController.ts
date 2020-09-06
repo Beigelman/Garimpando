@@ -4,13 +4,20 @@ import SearchForProductsService from '@modules/search/services/SearchForProducts
 
 export default class ProductSearchController {
   public async index(request: Request, response: Response): Promise<Response> {
-    const { product_description, pages, min_price, max_price } = request.body;
+    const {
+      product_description,
+      pages,
+      min_price,
+      max_price,
+      platform,
+    } = request.body;
 
     const searchForProduct = container.resolve(SearchForProductsService);
 
     const searchResult = await searchForProduct.execute({
       product_description,
       pages,
+      platform,
       min_price,
       max_price,
     });

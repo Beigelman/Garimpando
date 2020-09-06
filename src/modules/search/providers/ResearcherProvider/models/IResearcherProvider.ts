@@ -1,6 +1,6 @@
-import ISearchParamsDTO from '@modules/search/dtos/ISearchParamsDTO';
+import ISearchProductParamsDTO from '@modules/search/dtos/ISearchProductParamsDTO';
 import IResultDTO from '@modules/search/dtos/IResultDTO';
 
 export default interface IResearcherProvider {
-  findProduct(params: ISearchParamsDTO): Promise<IResultDTO[]>;
+  findProduct(params: ISearchProductParamsDTO): Promise<IResultDTO[]>;
 }

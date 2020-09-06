@@ -23,8 +23,8 @@ export default class OlxProvider implements IPuppeteerResearcherProvider {
     });
     try {
       // Selecionando o campo de pesquisa
-      await page.waitForSelector('input');
-      await page.focus('input');
+      await page.waitForSelector('input[placeholder=Buscar]');
+      await page.focus('input[placeholder=Buscar]');
       // Escrevendo o item procurado
       await page.keyboard.type(product_description);
 
@@ -34,23 +34,26 @@ export default class OlxProvider implements IPuppeteerResearcherProvider {
       const products = [];
       // Procurando nas paginas
       for (let i = 0; i < pages; i++) {
-        await page.waitForSelector('li.sc-1fcmfeb-2');
+        await page.waitForSelector('li');
         const info = await page.evaluate(() => {
-          const elements = document.querySelectorAll('li.sc-1fcmfeb-2');
+          const elements = document.querySelectorAll('li');
           const list = Array.from(elements);
           return list.map(
             item =>
               ({
-                title: item.querySelector<HTMLElement>('h2.fnmrjs-10')
-                  ?.innerText,
-                price: item.querySelector<HTMLElement>('p.fnmrjs-16')
-                  ? item
-                      .querySelector<HTMLElement>('p.fnmrjs-16')
-                      ?.innerText.replace('R$ ', '')
-                      .replace('.', '')
-                  : '',
+                title: item.querySelector<HTMLElement>('h2')?.innerText,
+                price: parseFloat(
+                  `${
+                    item.querySelector<HTMLElement>('p[weight=bold]')
+                      ? item
+                          .querySelector<HTMLElement>('p[weight=bold]')
+                          ?.innerText.replace('R$ ', '')
+                          .replace('.', '')
+                      : 0
+                  }`
+                ),
                 link: item
-                  .querySelector<HTMLElement>('a.fnmrjs-0')
+                  .querySelector<HTMLElement>('a[data-lurker-detail=list_id]')
                   ?.getAttribute('href'),
               } as IResultDTO)
           );
@@ -59,8 +62,8 @@ export default class OlxProvider implements IPuppeteerResearcherProvider {
         products.push(...info);
 
         try {
-          await page.waitForSelector('a.sc-1m4ygug-2');
-          await page.click('a.sc-1m4ygug-2');
+          await page.waitForSelector('a[data-lurker-detail=next_page]');
+          await page.click('a[data-lurker-detail=next_page]');
         } catch {
           i = pages;
         }

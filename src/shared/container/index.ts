@@ -13,6 +13,12 @@ import UserTokensRepository from '@modules/users/infra/typeorm/repositories/User
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import NotificationsRepository from '@modules/notifications/infra/typeorm/repositories/NotificationsRepository';
 
+import IResearchesRepository from '@modules/search/repositories/IResearchesRepository';
+import ResearchesRepository from '@modules/search/infra/typeorm/repositories/ResearchesRepository';
+
+import IResultsRepository from '@modules/search/repositories/IResultsRepository';
+import ResultsRepository from '@modules/search/repositories/fakes/FakeResultsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository
@@ -26,4 +32,14 @@ container.registerSingleton<IUserTokensRepository>(
 container.registerSingleton<INotificationsRepository>(
   'NotificationsRepository',
   NotificationsRepository
+);
+
+container.registerSingleton<IResearchesRepository>(
+  'ResearchesRepository',
+  ResearchesRepository
+);
+
+container.registerSingleton<IResultsRepository>(
+  'ResultsRepository',
+  ResultsRepository
 );

@@ -1,38 +1,38 @@
-// import AppError from '@shared/errors/AppError';
-// import { injectable, inject } from 'tsyringe';
-// import ICronProvider from '@shared/container/providers/CronProvider/models/ICronProvider';
+import AppError from '@shared/errors/AppError';
+import { injectable, inject } from 'tsyringe';
+import IResearchesRepository from '@modules/search/repositories/IResearchesRepository';
+import IResearcherProvider from '@modules/search/providers/ResearcherProvider/models/IResearcherProvider';
+import IResultsRepository from '@modules/search/repositories/IResultsRepository';
 
-// interface IRequest {
-//   product_description: string;
-//   pages: number;
-//   min_price?: number;
-//   max_price?: number;
-// }
+@injectable()
+class SearchForProductsRoutine {
+  constructor(
+    @inject('ResearchesRepository')
+    private researchesRepository: IResearchesRepository,
+    @inject('ResearcherProvider')
+    private researcherProvider: IResearcherProvider,
+    @inject('ResultsRepository')
+    private resultsRepository: IResultsRepository
+  ) {}
 
-// @injectable()
-// class SearchForProductsService {
-//   constructor(
-//     @inject('ResearcherProvider')
-//     private researcherProvider: IResearcherProvider,
-//     @inject('CronProvider')
-//     private cronProvider: ICronProvider
-//   ) {}
+  public async execute(): Promise<void> {
+    const researches = await this.researchesRepository.findAll();
 
-//   public async execute({
-//     product_description,
-//     pages,
-//     min_price,
-//     max_price,
-//   }: IRequest): Promise<> {
-//     const results = await this.researcherProvider.findProduct({
-//       product_description,
-//       pages,
-//       min_price,
-//       max_price,
-//     });
+    if (!researches || researches.length === 0) {
+      throw new AppError('No researches to be made');
+    }
 
-//     return results;
-//   }
-// }
+    researches.map(async research => {
+      const results = await this.researcherProvider.findProduct({
+        ...JSON.parse(research.params),
+      });
 
-// export default SearchForProductsService;
+      await this.resultsRepository.create({
+        research_id: research.id,
+        results,
+      });
+    });
+  }
+}
+
+export default SearchForProductsRoutine;
