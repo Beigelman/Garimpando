@@ -16,7 +16,6 @@ export default class CreateResults1598986163574 implements MigrationInterface {
           {
             name: 'research_id',
             type: 'uuid',
-            isNullable: false,
           },
           {
             name: 'title',
@@ -43,7 +42,7 @@ export default class CreateResults1598986163574 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'ResearchResult',
+            name: 'ResearchID',
             referencedTableName: 'researches',
             referencedColumnNames: ['id'],
             columnNames: ['research_id'],
