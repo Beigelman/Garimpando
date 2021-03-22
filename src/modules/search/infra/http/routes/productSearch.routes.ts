@@ -1,26 +1,10 @@
 import { Router } from 'express';
-import { celebrate, Segments, Joi } from 'celebrate';
 
 import ProductSearchController from '@modules/search/infra/http/controllers/ProductSearchController';
 
 const productSearchRouter = Router();
 const productSearchController = new ProductSearchController();
 
-productSearchRouter.post(
-  '/search',
-  celebrate({
-    [Segments.BODY]: {
-      product_description: Joi.string().required(),
-      pages: Joi.number().required(),
-      platform: Joi.object({
-        olx: Joi.boolean().required(),
-        ml: Joi.boolean().required(),
-      }).required(),
-      min_price: Joi.number(),
-      max_price: Joi.number(),
-    },
-  }),
-  productSearchController.index
-);
+productSearchRouter.get('/search/:research_id', productSearchController.index);
 
 export default productSearchRouter;

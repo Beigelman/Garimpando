@@ -2,10 +2,10 @@ import FakeResearchesRepository from '@modules/search/repositories/fakes/FakeRes
 import AppError from '@shared/errors/AppError';
 import FakeResearcherProvider from '../providers/ResearcherProvider/fakes/FakeResearcherProvider';
 import FakeResultsRepository from '../repositories/fakes/FakeResultsRepository';
-import CreateRecurrentSearchService from './CreateRecurrentProductSearchService';
+import SearchForProductService from './SearchForProductService';
 
 let fakerResearchesRepository: FakeResearchesRepository;
-let createRecurrentSearch: CreateRecurrentSearchService;
+let searchForProductService: SearchForProductService;
 let fakeResearcherProvider: FakeResearcherProvider;
 let fakeResultsRepository: FakeResultsRepository;
 
@@ -15,33 +15,15 @@ describe('CreateRecurrentSearch', () => {
     fakeResearcherProvider = new FakeResearcherProvider();
     fakeResultsRepository = new FakeResultsRepository();
 
-    createRecurrentSearch = new CreateRecurrentSearchService(
-      fakerResearchesRepository,
+    searchForProductService = new SearchForProductService(
       fakeResearcherProvider,
+      fakerResearchesRepository,
       fakeResultsRepository
     );
   });
 
   it('should be able to create a search', async () => {
-    const search = await createRecurrentSearch.execute({
-      frequency: 2,
-      user_id: 'user_id',
-      params: {
-        pages: 1,
-        platform: {
-          ml: true,
-          olx: true,
-        },
-        product_description: 'Fone de ouvido',
-      },
-    });
-
-    expect(search).toHaveLength(5);
-    expect(search[0]).toHaveProperty('title');
-  });
-
-  it('should not be able to create a search that already exists', async () => {
-    fakerResearchesRepository.create({
+    const research = await fakerResearchesRepository.create({
       frequency: 2,
       user_id: 'user_id',
       params: JSON.stringify({
@@ -51,43 +33,48 @@ describe('CreateRecurrentSearch', () => {
           olx: true,
         },
         product_description: 'Fone de ouvido',
-        max_price: 1000,
-        min_price: 500,
       }),
     });
 
+    const search = await searchForProductService.execute({
+      research_id: research.id,
+    });
+
+    expect(search).toHaveLength(5);
+    expect(search[0]).toHaveProperty('title');
+  });
+
+  it('should throw an erro if the research was not found', async () => {
     await expect(
-      createRecurrentSearch.execute({
-        frequency: 2,
-        user_id: 'user_id',
-        params: {
-          pages: 1,
-          platform: {
-            ml: true,
-            olx: true,
-          },
-          product_description: 'Fone de ouvido',
-          max_price: 1000,
-          min_price: 500,
-        },
+      searchForProductService.execute({
+        research_id: '123456',
       })
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should warn if no products were found', async () => {
-    await expect(
-      createRecurrentSearch.execute({
-        frequency: 2,
-        user_id: 'user_id',
-        params: {
-          pages: 1,
-          platform: {
-            ml: true,
-            olx: true,
-          },
-          product_description: 'Fone de ouvido',
-          max_price: 1,
+  it('it should return the old values is no new values were found', async () => {
+    const research = await fakerResearchesRepository.create({
+      frequency: 2,
+      user_id: 'user_id',
+      params: JSON.stringify({
+        pages: 1,
+        platform: {
+          ml: true,
+          olx: true,
         },
+        product_description: 'Fone de ouvido',
+        max_price: 1200,
+        min_price: 800,
+      }),
+    });
+
+    await searchForProductService.execute({
+      research_id: research.id,
+    });
+
+    await expect(
+      searchForProductService.execute({
+        research_id: research.id,
       })
     ).rejects.toBeInstanceOf(AppError);
   });

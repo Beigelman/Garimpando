@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import IResearchesRepository from '../repositories/IResearchesRepository';
-import ISearchProductParamsDTO from '../dtos/ISearchProductParamsDTO';
 import IResearcherProvider from '../providers/ResearcherProvider/models/IResearcherProvider';
 import Result from '../infra/typeorm/entities/Result';
 import IResultsRepository from '../repositories/IResultsRepository';
+import ISearchProductParamsDTO from '../dtos/ISearchProductParamsDTO';
 
 interface IRequest {
   user_id: string;

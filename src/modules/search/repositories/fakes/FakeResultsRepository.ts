@@ -1,6 +1,6 @@
 import ICreateResultDTO from '@modules/search/dtos/ICreateResultDTO';
 import Result from '@modules/search/infra/typeorm/entities/Result';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import IResultsRepository from '../IResultsRepository';
 
 class FakeResultsRepository implements IResultsRepository {

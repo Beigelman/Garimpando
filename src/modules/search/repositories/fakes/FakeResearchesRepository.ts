@@ -1,7 +1,7 @@
 import IResearchesRepository from '@modules/search/repositories/IResearchesRepository';
 import ICreateResearchDTO from '@modules/search/dtos/ICreateResearchDTO';
 import Research from '@modules/search/infra/typeorm/entities/Research';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 class FakeResearchesRepository implements IResearchesRepository {
   private researches: Research[] = [];

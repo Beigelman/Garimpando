@@ -17,7 +17,7 @@ import IResearchesRepository from '@modules/search/repositories/IResearchesRepos
 import ResearchesRepository from '@modules/search/infra/typeorm/repositories/ResearchesRepository';
 
 import IResultsRepository from '@modules/search/repositories/IResultsRepository';
-import ResultsRepository from '@modules/search/repositories/fakes/FakeResultsRepository';
+import ResultsRepository from '@modules/search/infra/typeorm/repositories/ResultsRepository';
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
