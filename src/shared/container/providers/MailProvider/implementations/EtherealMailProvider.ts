@@ -12,14 +12,13 @@ export default class EtherealMailProvider implements IMailProvider {
     @inject('MailTemplateProvider')
     private mailTemplateProvider: IMailTemplateProvider
   ) {
-    nodemailer.createTestAccount().then(account => {
+    nodemailer.createTestAccount().then(() => {
       const transporter = nodemailer.createTransport({
-        host: account.smtp.host,
-        port: account.smtp.port,
-        secure: account.smtp.secure,
+        host: 'smtp.mailtrap.io',
+        port: 2525,
         auth: {
-          user: account.user,
-          pass: account.pass,
+          user: '67ce4a143fbd6e',
+          pass: 'b9d531e58733b5',
         },
       });
       this.client = transporter;

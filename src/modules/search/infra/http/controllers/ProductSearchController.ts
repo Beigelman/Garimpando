@@ -1,12 +1,12 @@
 import { Response, Request } from 'express';
 import { container } from 'tsyringe';
-import SearchForProductsService from '@modules/search/services/SearchForProductsService';
+import SearchForProductService from '@modules/search/services/SearchForProductService';
 
 export default class ProductSearchController {
   public async index(request: Request, response: Response): Promise<Response> {
     const { research_id } = request.params;
 
-    const searchForProduct = container.resolve(SearchForProductsService);
+    const searchForProduct = container.resolve(SearchForProductService);
 
     const searchResult = await searchForProduct.execute({ research_id });
 

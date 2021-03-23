@@ -1,10 +1,10 @@
 import * as jobs from '@modules/search/jobs';
 import Queue, { Job } from 'bull';
 import redisConfig from '@config/redis';
-import { IQueueProvider, IAdd } from '../models/IQueueProvider';
+import IQueueProvider, { IAdd } from '../models/IQueueProvider';
 
 class BullQueue implements IQueueProvider {
-  private queues = Object.values(jobs).map(job => ({
+  queues = Object.values(jobs).map(job => ({
     bull: new Queue(job.key, redisConfig),
     name: job.key,
     handle: job.handle,

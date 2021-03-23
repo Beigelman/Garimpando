@@ -1,3 +1,4 @@
 import FindProduct from './FindProduct';
+import SendNotificationEmail from './SendNotificationEmail';
 
-export default FindProduct;
+export { FindProduct, SendNotificationEmail };

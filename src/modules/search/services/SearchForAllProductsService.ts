@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import IResearchesRepository from '@modules/search/repositories/IResearchesRepository';
-import { IQueueProvider } from '@shared/container/providers/QueueProvider/models/IQueueProvider';
+import IQueueProvider from '@shared/container/providers/QueueProvider/models/IQueueProvider';
 
 @injectable()
 class SearchForAllProductsService {
@@ -19,10 +19,10 @@ class SearchForAllProductsService {
       throw new AppError('No researches to be made');
     }
 
-    researches.forEach(() => {
+    researches.forEach(research => {
       this.queueProvider.add({
         name: 'FindProduct',
-        data: { research_id: '12231' },
+        data: { research_id: research.id },
       });
     });
   }

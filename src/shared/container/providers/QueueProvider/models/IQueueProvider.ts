@@ -1,10 +1,10 @@
 export interface IAdd {
   name: string;
-  data: { [key: string]: string };
+  data: { [key: string]: any };
   options?: { [key: string]: string };
 }
 
-export interface IQueueProvider {
+export default interface IQueueProvider {
   add({ name, data }: IAdd): void;
   process(): void;
 }

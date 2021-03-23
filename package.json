@@ -1,13 +1,14 @@
 {
-  "name": "findmypurchased",
+  "name": "garimpando",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
     "docker": "docker-compose up --detach",
+    "dev": "npm-run-all -p dev:*",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpileOnly --ignore-watch node_modules src/shared/server.ts",
-    "dev:queue": "ts-node-dev -r tsconfig-paths/register --inspect --transpileOnly --ignore-watch node_modules src/shared/queue.ts",
+    "dev:queue": "ts-node-dev -r tsconfig-paths/register --transpileOnly --ignore-watch node_modules src/shared/queue.ts",
     "start": "ts-node src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "test": "jest"
@@ -47,6 +48,7 @@
     "aws-sdk": "^2.725.0",
     "bcryptjs": "^2.4.3",
     "bull": "^3.21.1",
+    "bull-board": "^1.5.1",
     "celebrate": "^12.1.2",
     "class-transformer": "^0.3.1",
     "cors": "^2.8.5",

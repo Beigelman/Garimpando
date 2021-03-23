@@ -1,0 +1,45 @@
+<style>
+  .message-content {
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 600px;
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  .table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .table td {
+    padding: 10px;
+  }
+
+  .table tr:hover {
+    background-color: #ddd;
+  }
+
+  .table tr:nth-child(even){
+    background-color: #f2f2f2;
+  }
+
+  .table th {
+    padding: 7px ;
+    text-align: left;
+    background-color: #ffc107;
+  }
+
+</style>
+
+<div class="message-content">
+  <p>Olá, {{name}}</p>
+  <p>Achamos esses novos produtos na sua pesquisa: "<strong>{{research}}</strong>"</p>
+  <table class="table">
+    <tr><th>Titúlo</th><th>Preço</th><th>Link</th></tr>
+    {{#each results}}
+    <tr><td>{{this.title}}</td><td>R$ {{this.price}}</td> <td><a href={{this.link}}>Abrir</a></td></tr>
+    {{/each}}
+  </table>
+  <p>Espero que tenha achado o que esta procurando :)</p>
+  <p><strong>Equipe Garimpando</strong></p>
+</div>

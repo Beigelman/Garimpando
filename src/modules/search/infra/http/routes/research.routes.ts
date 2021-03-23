@@ -2,13 +2,15 @@ import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 import ensureAuthentication from '@modules/users/infra/http/middlewares/ensureAuthentication';
 import ResearchesController from '../controllers/ResearchesController';
+import ProductSearchController from '../controllers/ProductSearchController';
 
 const researchesRouter = Router();
 const researchesController = new ResearchesController();
+const productSearchController = new ProductSearchController();
 
 researchesRouter.use(ensureAuthentication);
 researchesRouter.post(
-  '/product',
+  '/create',
   celebrate({
     [Segments.BODY]: {
       params: Joi.object({
@@ -26,5 +28,6 @@ researchesRouter.post(
   }),
   researchesController.create
 );
+researchesRouter.get('/:research_id', productSearchController.index);
 
 export default researchesRouter;
