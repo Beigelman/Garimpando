@@ -10,13 +10,11 @@ class CronServer implements ICronServer {
   constructor(@inject('CronProvider') private cronProvider: ICronProvider) {}
 
   public start(): void {
-    console.log('Cron running...');
-
     const searchForAllProducts = container.resolve(SearchForAllProductsService);
 
     this.cronProvider.schedule({
-      schedule: '1 * * * * *',
-      action: searchForAllProducts.execute,
+      schedule: '1 */12 * * *',
+      action: () => searchForAllProducts.execute(),
     });
   }
 }
