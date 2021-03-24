@@ -16,6 +16,8 @@ class CronServer implements ICronServer {
       schedule: '1 */12 * * *',
       action: () => searchForAllProducts.execute(),
     });
+
+    console.log('Cron setup!');
   }
 }
 

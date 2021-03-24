@@ -1,5 +1,5 @@
-import Mail from 'lib/Mail';
 import { container } from 'tsyringe';
+import Mail from '../../../lib/Mail';
 
 export default {
   key: 'SendNotificationEmail',

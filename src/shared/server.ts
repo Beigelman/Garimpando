@@ -13,7 +13,7 @@ import routes from '@shared/infra/http/routes';
 import '@shared/infra/typeorm';
 import '@shared/container';
 import { container } from 'tsyringe';
-import CronServer from 'lib/CronServer';
+import CronServer from '../lib/CronServer';
 import rateLimiter from './infra/http/middlewares/rateLimiter';
 
 const cron = container.resolve(CronServer);

@@ -10,7 +10,7 @@ interface IMail {
 class Mail implements IMail {
   constructor(@inject('MailProvider') private mailProvider: IMailProvider) {}
 
-  sendEmail({ from, subject, templateData, to }: ISendMailDTO): void {
+  public sendEmail({ from, subject, templateData, to }: ISendMailDTO): void {
     this.mailProvider.sendMail({
       subject,
       templateData,
