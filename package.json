@@ -1,14 +1,18 @@
 {
   "name": "garimpando",
+  "engines": {
+    "node": "14.16.0"
+  },
   "version": "1.0.0",
   "main": "src/server.ts",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "docker": "docker-compose up --detach",
-    "dev": "npm-run-all -p dev:*",
+    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
+    "postinstall": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpileOnly --ignore-watch node_modules src/shared/server.ts",
     "dev:queue": "ts-node-dev -r tsconfig-paths/register --transpileOnly --ignore-watch node_modules src/shared/queue.ts",
+    "dev": "npm-run-all -p dev:*",
     "start:server": "node dist/shared/server.js",
     "start:queue": "node dist/shared/queue.js",
     "start": "npm-run-all -p start:*",
