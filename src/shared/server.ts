@@ -14,13 +14,11 @@ import '@shared/infra/typeorm';
 import '@shared/container';
 import { container } from 'tsyringe';
 import CronServer from '../lib/CronServer';
+import Queue from '../lib/Queue';
 import rateLimiter from './infra/http/middlewares/rateLimiter';
 
 const cron = container.resolve(CronServer);
-
-setTimeout(() => {
-  cron.start();
-}, 2000);
+const queue = container.resolve(Queue);
 
 const app = express();
 
@@ -46,3 +44,9 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
 });
+
+setTimeout(() => {
+  cron.start();
+}, 2000);
+
+queue.processQueues();
