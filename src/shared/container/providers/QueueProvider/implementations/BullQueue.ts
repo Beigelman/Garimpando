@@ -17,6 +17,7 @@ class BullQueue implements IQueueProvider {
   }
 
   process(): void {
+    console.log('Queues started!');
     return this.queues.forEach(q => {
       q.bull.process(q.handle);
 
