@@ -10,6 +10,9 @@ module.exports = {
     `./${process.env.ROOT_DIR}/shared/infra/typeorm/migrations/*${fileExt}`
   ],
   cli: {
-    "migrationsDir": "./src/shared/infra/typeorm/migrations"
+    migrationsDir: "./src/shared/infra/typeorm/migrations"
+  },
+  extra: {
+    ssl: true
   }
 }
