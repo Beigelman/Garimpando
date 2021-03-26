@@ -12,9 +12,12 @@ export default class OlxProvider implements IPuppeteerResearcherProvider {
     pages,
     product_description,
   }: IPuppeteerParamsDTO): Promise<IResultDTO[]> {
-    const browser = await puppeteer.launch({
-      defaultViewport: { width: 1920, height: 1080 },
-    });
+    const chromeOptions = {
+      headless: true,
+      defaultViewport: null,
+      args: ['--incognito', '--no-sandbox', '--single-process', '--no-zygote'],
+    };
+    const browser = await puppeteer.launch(chromeOptions);
     // Criando nova aba
     const page = await browser.newPage();
     // Redirecionando para o url desejada
