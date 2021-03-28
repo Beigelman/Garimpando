@@ -11,12 +11,12 @@ export default class ResearchesController {
       CreateRecurrentSearchService
     );
 
-    const research = await createRecurrentSearch.execute({
+    await createRecurrentSearch.execute({
       user_id: id,
       params,
       frequency,
     });
 
-    return response.status(200).json(research);
+    return response.status(201).send();
   }
 }

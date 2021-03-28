@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import * as jobs from '@modules/search/jobs';
 import Queue, { Job } from 'bull';
 import redisConfig from '@config/redis';
@@ -19,7 +21,7 @@ class BullQueue implements IQueueProvider {
   process(): void {
     console.log('Queues started!');
     return this.queues.forEach(q => {
-      q.bull.process(q.handle);
+      q.bull.process(2, q.handle);
 
       q.bull.on('failed', (job, err) => {
         console.log('Job failed', job.name, job.data);

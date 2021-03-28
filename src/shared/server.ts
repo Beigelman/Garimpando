@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import 'reflect-metadata';
 import 'dotenv/config';
 
@@ -14,11 +15,9 @@ import '@shared/infra/typeorm';
 import '@shared/container';
 import { container } from 'tsyringe';
 import CronServer from '../lib/CronServer';
-import Queue from '../lib/Queue';
 import rateLimiter from './infra/http/middlewares/rateLimiter';
 
 const cron = container.resolve(CronServer);
-const queue = container.resolve(Queue);
 
 const app = express();
 
@@ -48,5 +47,3 @@ app.listen(process.env.PORT, () => {
 setTimeout(() => {
   cron.start();
 }, 2000);
-
-queue.processQueues();
