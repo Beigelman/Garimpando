@@ -1,5 +1,5 @@
 interface IMailConfig {
-  driver: 'ethereal' | 'ses';
+  driver: 'trap' | 'sendGrid';
   defaults: {
     from: {
       email: string;
@@ -8,11 +8,11 @@ interface IMailConfig {
   };
 }
 export default {
-  driver: process.env.MAIL_DRIVER || 'ethereal',
+  driver: process.env.MAIL_DRIVER || 'trap',
   defaults: {
     from: {
-      name: 'Daniel Beigelman',
-      email: 'daniel.b.beigelman@gamil.com',
+      name: 'Garimpando',
+      email: 'daniel_b.b@hotmail.com',
     },
   },
 } as IMailConfig;

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
@@ -43,6 +44,8 @@ class SearchForProductService {
 
     const params = JSON.parse(research.params) as ISearchProductParamsDTO;
 
+    console.log(`Iniciando busca por ${params.product_description}`);
+
     const results_found = await this.researcherProvider.findProduct({
       ...params,
     });
@@ -71,8 +74,8 @@ class SearchForProductService {
     this.queueProvider.add({
       name: 'SendNotificationEmail',
       data: {
-        from: { name: 'Garimpando', email: 'garimpando@gmail.com' },
         subject: `Novos achados para "${params.product_description}"`,
+        to: { name: user.name, email: user.email },
         templateData: {
           file: path.resolve(__dirname, '..', 'views', 'new_products.hbs'),
           variables: {
@@ -81,7 +84,6 @@ class SearchForProductService {
             results: new_results,
           },
         },
-        to: { name: user.name, email: user.email },
       },
     });
 
