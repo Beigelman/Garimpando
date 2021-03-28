@@ -2,6 +2,7 @@ import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import IResearchesRepository from '@modules/search/repositories/IResearchesRepository';
 import IQueueProvider from '@shared/container/providers/QueueProvider/models/IQueueProvider';
+import Research from '../infra/typeorm/entities/Research';
 
 @injectable()
 class SearchForAllProductsService {
@@ -12,7 +13,7 @@ class SearchForAllProductsService {
     private queueProvider: IQueueProvider
   ) {}
 
-  public async execute(): Promise<void> {
+  public async execute(): Promise<Research[]> {
     const researches = await this.researchesRepository.findAll();
 
     if (!researches || researches.length === 0) {
@@ -25,6 +26,8 @@ class SearchForAllProductsService {
         data: { research_id: research.id },
       });
     });
+
+    return researches;
   }
 }
 
