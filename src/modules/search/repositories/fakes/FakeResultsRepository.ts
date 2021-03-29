@@ -25,9 +25,7 @@ class FakeResultsRepository implements IResultsRepository {
     return result;
   }
 
-  public async findByResearchId(
-    research_id: string
-  ): Promise<Result[] | undefined> {
+  public async findByResearchId(research_id: string): Promise<Result[]> {
     const result = this.results.filter(
       item => item.research_id === research_id
     );

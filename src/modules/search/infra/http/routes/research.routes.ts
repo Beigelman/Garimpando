@@ -3,10 +3,12 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import ensureAuthentication from '@modules/users/infra/http/middlewares/ensureAuthentication';
 import ResearchesController from '../controllers/ResearchesController';
 import ProductSearchController from '../controllers/ProductSearchController';
+import ResultsController from '../controllers/ResultsController';
 
 const researchesRouter = Router();
 const researchesController = new ResearchesController();
 const productSearchController = new ProductSearchController();
+const resultsController = new ResultsController();
 
 researchesRouter.use(ensureAuthentication);
 researchesRouter.post(
@@ -29,5 +31,6 @@ researchesRouter.post(
   researchesController.create
 );
 researchesRouter.get('/:research_id', productSearchController.index);
+researchesRouter.get('/:research_id/results', resultsController.index);
 
 export default researchesRouter;

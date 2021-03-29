@@ -32,9 +32,7 @@ class ResultsRepository implements IResultsRepository {
     return result;
   }
 
-  public async findByResearchId(
-    research_id: string
-  ): Promise<Result[] | undefined> {
+  public async findByResearchId(research_id: string): Promise<Result[]> {
     const results = await this.ormRepository.find({
       where: { research_id },
     });
