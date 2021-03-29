@@ -7,6 +7,7 @@ import researchesRouter from '@modules/search/infra/http/routes/research.routes'
 
 const routes = Router();
 
+routes.use('/available', (_, res) => res.json({ available: 'OK' }));
 routes.use('/users', usersRouter);
 routes.use('/sessions', sessionsRouter);
 routes.use('/password', passwordRouter);
