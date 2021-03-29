@@ -9,7 +9,7 @@
   "scripts": {
     "docker": "docker-compose up --detach",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
-    "postinstall": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
+    "postinstall": "npx typeorm migration:run",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/server.ts",
     "dev:queue": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/shared/queue.ts",
     "dev": "npm-run-all -p dev:*",
