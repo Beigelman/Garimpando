@@ -13,7 +13,7 @@ class CronServer implements ICronServer {
     const searchForAllProducts = container.resolve(SearchForAllProductsService);
 
     this.cronProvider.schedule({
-      schedule: '* */12 * * *',
+      schedule: '* */4 * * *',
       action: () => searchForAllProducts.execute(),
     });
 
