@@ -24,79 +24,37 @@ export default class PuppeteerResearcherProvider
     min_price,
     max_price,
   }: ISearchProductParamsDTO): Promise<IResultDTO[]> {
-    const [mlProducts, olxProducts] = await Promise.all([
-      this.mlProvider.findTags({
+    const providers = [this.olxProvider, this.mlProvider].filter(p =>
+      Object.keys(platform).some(key => key === p.provider)
+    );
+
+    const search = providers.map(p =>
+      p.findTags({
         product_description,
         pages,
-      }),
-      this.olxProvider.findTags({
-        product_description,
-        pages,
-      }),
-    ]);
+      })
+    );
 
-    const filteredProduct = await (async (): Promise<IResultDTO[]> => {
-      let concatProducts: any[] = [];
+    const results = await Promise.all(search);
 
-      if (mlProducts && platform.ml) {
-        const cleanMlProducts = mlProducts.map(item => ({
-          title: item.title ? item.title.toLowerCase() : '',
-          price: item.price ? item.price : 0,
-          link: item?.link,
-        }));
+    const allResults = results
+      .flat(1)
+      .filter(item => item.link && item.price && item.title)
+      .map(item => ({ ...item, title: item.title.toLocaleLowerCase() }));
 
-        let filteredMlProduct: any[] = [];
-
-        if (min_price && !max_price) {
-          filteredMlProduct = cleanMlProducts.filter(
-            item => item.price > min_price
-          );
-        } else if (!min_price && max_price) {
-          filteredMlProduct = cleanMlProducts.filter(
-            item => item.price < max_price
-          );
-        } else if (min_price && max_price) {
-          filteredMlProduct = cleanMlProducts.filter(
-            item => item.price < max_price && item.price > min_price
-          );
-        } else {
-          filteredMlProduct = cleanMlProducts;
-        }
-
-        concatProducts = concatProducts.concat(filteredMlProduct);
+    const filteredResults = allResults.filter(item => {
+      if (min_price && !max_price) {
+        return item.price > min_price;
       }
-
-      if (olxProducts && platform.olx) {
-        const cleanOlxProducts = olxProducts.map(item => ({
-          title: item.title ? item.title.toLowerCase() : '',
-          price: item.price ? item.price : 0,
-          link: item?.link,
-        }));
-
-        let filteredOlxProduct: any[] = [];
-
-        if (min_price && !max_price) {
-          filteredOlxProduct = cleanOlxProducts.filter(
-            item => item.price > min_price
-          );
-        } else if (!min_price && max_price) {
-          filteredOlxProduct = cleanOlxProducts.filter(
-            item => item.price < max_price
-          );
-        } else if (min_price && max_price) {
-          filteredOlxProduct = cleanOlxProducts.filter(
-            item => item.price < max_price && item.price > min_price
-          );
-        } else {
-          filteredOlxProduct = cleanOlxProducts;
-        }
-
-        concatProducts = concatProducts.concat(filteredOlxProduct);
+      if (!min_price && max_price) {
+        return item.price < max_price;
       }
+      if (min_price && max_price) {
+        return item.price < max_price && item.price > min_price;
+      }
+      return item;
+    });
 
-      return concatProducts;
-    })();
-
-    return filteredProduct;
+    return filteredResults;
   }
 }

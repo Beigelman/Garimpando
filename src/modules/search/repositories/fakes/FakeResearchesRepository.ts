@@ -16,6 +16,16 @@ class FakeResearchesRepository implements IResearchesRepository {
     return research;
   }
 
+  public async save(research: Research): Promise<Research> {
+    const findIndex = this.researches.findIndex(
+      findResearch => findResearch.id === research.id
+    );
+
+    this.researches[findIndex] = research;
+
+    return research;
+  }
+
   public async findAll(): Promise<Research[] | undefined> {
     return this.researches;
   }
@@ -32,7 +42,7 @@ class FakeResearchesRepository implements IResearchesRepository {
     return research;
   }
 
-  public async findByUserId(user_id: string): Promise<Research[] | undefined> {
+  public async findByUserId(user_id: string): Promise<Research[]> {
     const research = this.researches.filter(item => item.user_id === user_id);
 
     return research;

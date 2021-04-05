@@ -54,12 +54,13 @@ class SearchForProductService {
       research_id
     );
 
-    const new_results = results_found.filter(item =>
-      old_results?.every(
-        result =>
-          result.title !== item.title &&
-          Number(result.price) !== Number(item.price)
-      )
+    const new_results = results_found.filter(
+      item =>
+        !old_results?.some(
+          result =>
+            result.title === item.title &&
+            Number(result.price) === Number(item.price)
+        )
     );
 
     if (new_results.length === 0) {

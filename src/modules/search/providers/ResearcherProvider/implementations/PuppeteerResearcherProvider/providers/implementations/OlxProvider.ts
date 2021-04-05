@@ -8,6 +8,8 @@ import IResultDTO from '@modules/search/dtos/IResultDTO';
 import IPuppeteerResearcherProvider from '../models/IPuppeteerResearcherProvider';
 
 export default class OlxProvider implements IPuppeteerResearcherProvider {
+  provider = 'olx';
+
   public async findTags({
     pages,
     product_description,

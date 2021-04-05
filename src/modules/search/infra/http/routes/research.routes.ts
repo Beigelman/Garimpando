@@ -30,7 +30,9 @@ researchesRouter.post(
   }),
   researchesController.create
 );
-researchesRouter.get('/:research_id', productSearchController.index);
+researchesRouter.get('/me', researchesController.index);
+researchesRouter.get('/:research_id/find', productSearchController.index);
 researchesRouter.get('/:research_id/results', resultsController.index);
+researchesRouter.patch('/:research_id/cancel', researchesController.cancel);
 
 export default researchesRouter;

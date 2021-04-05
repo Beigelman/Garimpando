@@ -10,6 +10,8 @@ import IPuppeteerResearcherProvider from '../models/IPuppeteerResearcherProvider
 
 export default class MercadoLivreProvider
   implements IPuppeteerResearcherProvider {
+  provider = 'ml';
+
   public async findTags({
     pages,
     product_description,

@@ -27,6 +27,10 @@ class ResearchesRepository implements IResearchesRepository {
     return research;
   }
 
+  public async save(research: Research): Promise<Research> {
+    return this.ormRepository.save(research);
+  }
+
   public async findAll(): Promise<Research[] | undefined> {
     const researches = await this.ormRepository.find({
       where: { deleted_at: null },
@@ -49,7 +53,7 @@ class ResearchesRepository implements IResearchesRepository {
     return research;
   }
 
-  public async findByUserId(user_id: string): Promise<Research[] | undefined> {
+  public async findByUserId(user_id: string): Promise<Research[]> {
     const researches = await this.ormRepository.find({
       where: { user_id },
     });
